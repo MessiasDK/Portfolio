@@ -1,366 +1,160 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfólio FullStack | Messias Kandulo</title>
-  
-  <!-- Fontes e ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- CSS externo -->
-  <link rel="stylesheet" href="portifolioStyle.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wella Driver</title>
+ 
+    <script>
+        function openApp() {
+            // Iniciar animação da barra de progresso
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                progressBar.style.animation = 'progress 2s linear forwards';
+            }
+            
+            // 1. Tentar abrir via intent Android
+            window.location.href = 'intent://driver/#Intent;scheme=wella;package=com.kwellaa.KwellaDriver;end';
+            
+            // 2. Fallback para custom scheme após 500ms
+            setTimeout(function() {
+                // Verificar se ainda estamos na mesma página
+                if (document.visibilityState === 'visible') {
+                    window.location.href = 'wella://driver';
+                }
+            }, 500);
+            
+            // 3. Se não abrir em 2 segundos, mostrar botão como primário
+            setTimeout(function() {
+                // Verificar se ainda estamos na mesma página
+                if (document.visibilityState === 'visible') {
+                    const manualBtn = document.getElementById('manual-btn');
+                    if (manualBtn) {
+                        manualBtn.textContent = 'Continuar para Play Store';
+                        manualBtn.style.background = 'linear-gradient(to right, #ff3d00, #ff6d00)';
+                        manualBtn.onclick = function() {
+                            window.location.href = 'https://play.google.com/store/apps/details?id=com.kwellaa.KwellaDriver';
+                        };
+                    }
+                }
+            }, 2000);
+        }
+        
+        window.onload = openApp;
+        
+        // Adicionar botão manual para usuários impacientes
+        document.addEventListener('DOMContentLoaded', function() {
+            const manualBtn = document.getElementById('manual-btn');
+            if (manualBtn) {
+                manualBtn.addEventListener('click', function() {
+                    // Tenta abrir o app imediatamente quando o usuário clica
+                    window.location.href = 'wella://driver';
+                    
+                    // Se não abrir em 300ms, vai para Play Store
+                    setTimeout(function() {
+                        if (document.visibilityState === 'visible') {
+                            window.location.href = 'https://play.google.com/store/apps/details?id=com.kwellaa.KwellaDriver';
+                        }
+                    }, 300);
+                });
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #1a2a6c;
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #4facfe;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #4facfe;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #4facfe;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background: #2a7bc8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-   <!-- Botão de Toggle para Modo Escuro -->
-   <div class="theme-toggle">
-     <i class="fas fa-moon" id="theme-icon"></i>
-   </div>
-
-<!-- Header -->
-    <header id="header">
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">Port<span>fólio</span></a>
-                <ul class="nav-links">
-                    <li><a href="#home">Início</a></li>
-                    <li><a href="#about">Sobre</a></li>
-                    <li><a href="#services">Serviços</a></li>
-                    <li><a href="#portfolio">Portfólio</a></li>
-                    <li><a href="#contact">Contato</a></li>
-                </ul>
-                <div class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Olá, eu sou <span>Messias Kandulo</span></h1>
-                    <p>Desenvolvedor FullStack especializado em .NET, Spring Boot e tecnologias frontend modernas.</p>
-                    <div class="cta-buttons">
-                        <a href="#contact" class="btn btn-primary">Contate-me</a>
-                        <a href="https://docs.google.com/document/d/1RggeHY5BQyUYYtXkU1J2jvIya0nCU98X/edit?usp=sharing&ouid=105539726140911705552&rtpof=true&sd=true" class="btn btn-outline">Baixar CV</a>
-                    </div>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="https://linkedin.com/in/messias-kandulo-420b1a297" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/843707864"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img src="assets/images/hero.png" alt="Messias Kandulo">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>Sobre Mim</h2>
-                <p>Um pouco sobre mim, minhas habilidades e experiência</p>
-            </div>
-            <div class="about-content">
-                <div class="about-image">
-                  <dotlottie-wc
-  src="https://lottie.host/31099072-756e-48b9-9c2d-00b13f7352ae/EdNMQfCMRc.lottie"
-  style="width: 500px;height: 500px"
-  speed="1"
-  autoplay
-  loop
-></dotlottie-wc>
-                </div>
-                <div class="about-text">
-                    <h3>Desenvolvedor FullStack & Web Designer</h3>
-                    <p>Web Designer e Desenvolvedor Fullstack com sólida experiência no desenvolvimento de aplicações web e móveis, especializado em .NET, Spring Boot e tecnologias frontend modernas. Domínio em WordPress, HTML5, CSS3 e JavaScript, com foco em desenvolvimento front-end responsivo e gestão de websites institucionais.</p>
-                    <p>Demonstro forte capacidade na resolução de problemas tecnológicos com impacto direto na comunidade moçambicana, desde plataformas de mobilidade urbana até sistemas de gestão académica e científica. Combino competências técnicas avançadas com visão estratégica, focando em soluções funcionais, escaláveis e centradas no utilizador.</p>
-                    <div class="skills">
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>HTML5/CSS3/JavaScript</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>Java/Spring Boot</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>C#/.NET</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>ASP.NET Core</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>.NET MAUI</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="section" id="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Meus Serviços</h2>
-                <p>Serviços que ofereço para ajudar seu negócio a crescer</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Desenvolvimento Web</h3>
-                    <p>Desenvolvimento de sites responsivos e modernos usando tecnologias como HTML5, CSS3, JavaScript e frameworks como ASP.NET MVC e Spring Boot.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Desenvolvimento Mobile</h3>
-                    <p>Criação de aplicativos móveis multiplataforma com .NET MAUI, garantindo experiência consistente em diferentes dispositivos.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3>Desenvolvimento Backend</h3>
-                    <p>Desenvolvimento de APIs robustas e seguras usando ASP.NET Core e Spring Boot, com integração a bancos de dados como SQL Server.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <h3>UI/UX Design</h3>
-                    <p>Criação de interfaces intuitivas e acessíveis, alinhadas às boas práticas de UX/UI para melhor engajamento do utilizador.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>SEO On-page</h3>
-                    <p>Otimização de conteúdos para motores de busca, aumentando a visibilidade e melhorando o posicionamento nos resultados.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>Sistemas de Gestão</h3>
-                    <p>Desenvolvimento de sistemas personalizados para gestão académica, científica e empresarial com suporte a concorrência.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="section" id="portfolio">
-        <div class="container">
-            <div class="section-title">
-                <h2>Meu Portfólio</h2>
-                <p>Alguns dos meus trabalhos e projetos recentes</p>
-            </div>
-            <div class="portfolio-filter">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="web">Web</button>
-                <button class="filter-btn" data-filter="app">Mobile</button>
-                <button class="filter-btn" data-filter="system">Sistemas</button>
-            </div>
-            <div class="portfolio-grid">
-                <div class="portfolio-item" data-category="app">
-                    <img src="assets/images/wella.png" alt="Wella - Aplicação de Mobilidade Urbana" class="portfolio-img">
-                    <div class="portfolio-overlay">
-                        <h3>Wella - Mobilidade Urbana</h3>
-                        <p>Aplicação móvel em .NET MAUI conectando clientes e motoristas em tempo real</p>
-                        <a href="https://play.google.com/store/apps/details?id=com.kwellaa.mz&pli=1"><i class="fas fa-link"></i></a>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-category="system">
-                    <img src="https://via.placeholder.com/600x400" alt="Sistema CRUD de Alunos" class="portfolio-img">
-                    <div class="portfolio-overlay">
-                        <h3>Sistema CRUD de Alunos</h3>
-                        <p>Sistema cliente-servidor com suporte à concorrência para gestão académica</p>
-                        <a href="#"><i class="fas fa-link"></i></a>
-                    </div>
-                </div>
-                <div class="portfolio-item" data-category="web">
-                    <img src="https://via.placeholder.com/600x400" alt="Website Institucional" class="portfolio-img">
-                    <div class="portfolio-overlay">
-                        <h3>Website Institucional</h3>
-                        <p>Desenvolvimento frontend responsivo com WordPress, HTML5 e CSS3</p>
-                        <a href="https://kwellaa.com"><i class="fas fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>Entre em Contato</h2>
-                <p>Estou disponível para oportunidades de trabalho e projetos freelancer</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Vamos conversar!</h3>
-                    <p>Sinta-se à vontade para entrar em contato comigo enviando o formulário ao lado ou usando minhas informações de contato abaixo.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Email</h4>
-                                <a href="mailto:kandulomessias@gmail.com">kandulomessias@gmail.com</a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Telefone</h4>
-                                <a href="tel:+258843707864">+258 84 370 7864</a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Localização</h4>
-                                <p>Maputo, Moçambique</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://github.com/MessiasDK"><i class="fab fa-github"></i></a>
-                        <a href="https://linkedin.com/in/messias-kandulo-420b1a297" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/843707864"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="contact-form">
-                   <form 
-                        action="https://formspree.io/f/xldljbzy"
-                        method="POST">
-                        <div class="form-group">
-                            <input type="text" name="name" class="form-control" placeholder="Seu Nome" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="Seu Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="subject" class="form-control" placeholder="Assunto">
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" class="form-control" placeholder="Sua Mensagem" required></textarea>
-                        </div>
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="http://seusite.com/obrigado.html">
-                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3>Sobre Mim</h3>
-                    <p>Desenvolvedor FullStack especializado em .NET, Spring Boot e tecnologias frontend modernas, comprometido com a transformação digital de Moçambique através de soluções tecnológicas inovadoras.</p>
-                    <div class="footer-social-links">
-                        <a href="https://github.com/MessiasDK"><i class="fab fa-github"></i></a>
-                        <a href="https://linkedin.com/in/messias-kandulo-420b1a297" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://wa.me/843707864"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Links Úteis</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Início</a></li>
-                        <li><a href="#about">Sobre</a></li>
-                        <li><a href="#services">Serviços</a></li>
-                        <li><a href="#portfolio">Portfólio</a></li>
-                        <li><a href="#contact">Contato</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Serviços</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Desenvolvimento Web</a></li>
-                        <li><a href="#">Aplicações Mobile</a></li>
-                        <li><a href="#">Sistemas Backend</a></li>
-                        <li><a href="#">UI/UX Design</a></li>
-                        <li><a href="#">Otimização SEO</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Newsletter</h3>
-                    <p>Inscreva-se para receber atualizações e novidades.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Seu Email" class="form-control">
-                        <button type="submit" class="btn btn-primary">Inscrever</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Messias Kandulo. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <div class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
+    <div class="container">
+        <div class="logo"><img src="logolateral.png" height="110%" width="110%"></div>
+        <h1>Wella Driver</h1>
+        <div class="spinner"></div>
+        <p>Abrindo o aplicativo para motoristas...</p>     
+        <p>Se você não for redirecionado automaticamente:</p>
+        <a href="https://play.google.com/store/apps/details?id=com.kwellaa.KwellaDriver" class="btn">
+            Instalar o Aplicativo
+        </a>
     </div>
-  <!-- JavaScript externo -->
-  <script src="portifolioScript.js"></script>
-  <script
-  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
-  type="module"
-></script>
 </body>
 </html>
