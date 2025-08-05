@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wella Driver</title>
+ 
+    <script>
+        function openApp() {
+            // Iniciar animação da barra de progresso
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                progressBar.style.animation = 'progress 2s linear forwards';
+            }
+            
+            // 1. Tentar abrir via intent Android
+            window.location.href = 'intent://driver/#Intent;scheme=wella;package=com.kwellaa.KwellaDriver;end';
+            
+            // 2. Fallback para custom scheme após 500ms
+            setTimeout(function() {
+                // Verificar se ainda estamos na mesma página
+                if (document.visibilityState === 'visible') {
+                    window.location.href = 'wella://driver';
+                }
+            }, 500);
+            
+            // 3. Se não abrir em 2 segundos, mostrar botão como primário
+            setTimeout(function() {
+                // Verificar se ainda estamos na mesma página
+                if (document.visibilityState === 'visible') {
+                    const manualBtn = document.getElementById('manual-btn');
+                    if (manualBtn) {
+                        manualBtn.textContent = 'Continuar para Play Store';
+                        manualBtn.style.background = 'linear-gradient(to right, #ff3d00, #ff6d00)';
+                        manualBtn.onclick = function() {
+                            window.location.href = 'https://play.google.com/store/apps/details?id=com.kwellaa.KwellaDriver';
+                        };
+                    }
+                }
+            }, 2000);
+        }
+        
+        window.onload = openApp;
+        
+        // Adicionar botão manual para usuários impacientes
+        document.addEventListener('DOMContentLoaded', function() {
+            const manualBtn = document.getElementById('manual-btn');
+            if (manualBtn) {
+                manualBtn.addEventListener('click', function() {
+                    // Tenta abrir o app imediatamente quando o usuário clica
+                    window.location.href = 'wella://driver';
+                    
+                    // Se não abrir em 300ms, vai para Play Store
+                    setTimeout(function() {
+                        if (document.visibilityState === 'visible') {
+                            window.location.href = 'https://play.google.com/store/apps/details?id=com.kwellaa.KwellaDriver';
+                        }
+                    }, 300);
+                });
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #1a2a6c;
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #4facfe;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #4facfe;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #4facfe;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background: #2a7bc8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo"><img src="logolateral.png" height="110%" width="110%"></div>
+        <h1>Wella Driver</h1>
+        <div class="spinner"></div>
+        <p>Abrindo o aplicativo para motoristas...</p>     
+        <p>Se você não for redirecionado automaticamente:</p>
+        <a href="https://play.google.com/store/apps/details?id=com.kwellaa.KwellaDriver" class="btn">
+            Instalar o Aplicativo
+        </a>
+    </div>
+</body>
+</html>
